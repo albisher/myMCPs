@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  mcp-github:
+    image: mcp/github-mcp-server:latest
+    container_name: mymcp-github
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_PERSONAL_ACCESS_TOKEN}
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "echo", "GitHub MCP Server is running"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  mcp-postgres:
+    image: mcp/postgres:latest
+    container_name: mymcp-postgres
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST:-localhost}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-mymcp_db}
+      - POSTGRES_USER=${POSTGRES_USER:-mymcp_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mymcp_pass}
+    command: ["postgresql://${POSTGRES_USER:-tawreed_user}:${POSTGRES_PASSWORD:-tawreed_pass}@${POSTGRES_HOST:-localhost}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-tawreed_db}"]
+    ports:
+      - "8082:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "echo", "PostgreSQL MCP Server is running"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  mcp-perplexity:
+    image: mcp/perplexity-ask:latest
+    container_name: mymcp-perplexity
+    environment:
+      - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY}
+    ports:
+      - "8083:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "echo", "Perplexity MCP Server is running"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+volumes:
+  local-search-data:
+
+networks:
+  default:
+    name: mymcp-network

@@ -1,0 +1,24 @@
+# Core MCP dependencies
+mcp>=1.0.0
+pydantic>=2.0.0
+anyio>=4.0.0
+
+# File system and monitoring
+watchdog>=3.0.0
+pathspec>=0.11.0
+
+# Performance and utilities
+psutil>=5.9.0
+click>=8.1.0
+rich>=13.0.0
+tqdm>=4.65.0
+
+# Fuzzy search
+fuzzywuzzy>=0.18.0
+python-levenshtein>=0.21.0
+
+# File type detection
+python-magic>=0.4.27
+
+# Additional utilities
+glob2>=0.7

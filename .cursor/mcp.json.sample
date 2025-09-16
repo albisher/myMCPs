@@ -1,0 +1,69 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--network",
+        "host",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN=your_github_token_here",
+        "mcp/github-mcp-server:latest"
+      ]
+    },
+    "postgres": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--network",
+        "host",
+        "-e",
+        "POSTGRES_HOST=localhost",
+        "-e",
+        "POSTGRES_PORT=5432",
+        "-e",
+        "POSTGRES_DB=your_database_name",
+        "-e",
+        "POSTGRES_USER=your_database_user",
+        "-e",
+        "POSTGRES_PASSWORD=your_database_password",
+        "mcp/postgres:latest",
+        "postgresql://your_database_user:your_database_password@localhost:5432/your_database_name"
+      ]
+    },
+    "perplexity": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--network",
+        "host",
+        "-e",
+        "PERPLEXITY_API_KEY=your_perplexity_api_key_here",
+        "mcp/perplexity-ask:latest"
+      ]
+    },
+    "local-search": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--user",
+        "1000:1000",
+        "-v",
+        "/home/your_username:/home/your_username",
+        "-v",
+        "/home/your_username/.local_search_cache:/home/your_username/.local_search_cache",
+        "-e",
+        "SEARCH_ROOT=/home/your_username",
+        "mymcps-mcp-local-search"
+      ]
+    }
+  }
+}
